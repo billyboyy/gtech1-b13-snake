@@ -88,6 +88,20 @@ void snake()
   r.h = 20;
 }
 
+void Food()
+{
+  srand(time(NULL));
+  SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
+  SDL_RenderClear(renderer);
+
+  f.w = 20;
+  f.h = 20;
+  bot = rand() % 20;
+  top = rand() % 25;
+  f.x = top*20;
+  f.y = bot*20;
+}
+
 void move()
 {
   SDL_bool running = SDL_TRUE;
@@ -124,6 +138,8 @@ void move()
         case SDL_SCANCODE_RIGHT:
           e = 'R';
           break;
+          case SDL_SCANCODE_C:
+          Food();
         default:
           break;
         }
@@ -156,20 +172,6 @@ void move()
     SDL_RenderPresent(renderer);
     speed(frame_start);
   }
-}
-
-void Food()
-{
-  srand(time(NULL));
-  SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
-  SDL_RenderClear(renderer);
-
-  f.w = 20;
-  f.h = 20;
-  bot = rand() % 20 + 1;
-  top = rand() % 25 + 1;
-  f.x = top*20;
-  f.y = bot*20;
 }
 
 int main()
