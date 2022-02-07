@@ -138,8 +138,6 @@ void move()
         case SDL_SCANCODE_RIGHT:
           e = 'R';
           break;
-          case SDL_SCANCODE_C:
-          Food();
         default:
           break;
         }
