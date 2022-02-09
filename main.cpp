@@ -1,13 +1,11 @@
 #include "main.hpp"
-#include "MainSDLWindow.hpp"
-#include "MainSDLWindow.cpp"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_timer.h>
 #include <time.h>
 
 #define FRAME_RATE_MS 122
 #define height 500
-#define with 400
+#define width 400
 
 SDL_Window *gWindow = NULL;
 
@@ -28,14 +26,8 @@ int bot;
 void speed(unsigned int frame_start)
 {
   Uint32 duration = SDL_GetTicks() - frame_start;
-  if (duration < FRAME_RATE_MS) SDL_Delay(FRAME_RATE_MS - duration);
-
-  // if (frame_start < ticks)
-  //   return;
-  // else if (frame_start > ticks + FRAME_RATE_MS)
-  //   SDL_Delay(FRAME_RATE_MS);
-  // else
-  //   SDL_Delay(frame_start - ticks);
+  if (duration < FRAME_RATE_MS)
+    SDL_Delay(FRAME_RATE_MS - duration);
 }
 
 SDL_bool init()
@@ -49,7 +41,7 @@ SDL_bool init()
   }
   else
   {
-    gWindow = SDL_CreateWindow("SDL Tutorial", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, height, with, SDL_WINDOW_SHOWN);
+    gWindow = SDL_CreateWindow("moi", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, height, width, SDL_WINDOW_SHOWN);
     if (gWindow == NULL)
     {
       printf("Window could not be created! SDL_Error: %s\n", SDL_GetError());
@@ -98,8 +90,21 @@ void Food()
   f.h = 20;
   bot = rand() % 20;
   top = rand() % 25;
-  f.x = top*20;
-  f.y = bot*20;
+  f.x = top * 20;
+  f.y = bot * 20;
+}
+
+int collision()
+{
+  if (f.x == r.x && f.y == r.y)
+  {
+    Food();
+    return 0;
+  }
+  else if (r.x >= height || r.y >= width || r.x < 0 || r.y < 0)
+  {
+    return -1;
+  }
 }
 
 void move()
@@ -161,6 +166,8 @@ void move()
     default:
       break;
     }
+    if (collision() == -1)
+      running = SDL_FALSE;
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     SDL_RenderClear(renderer);
     SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
