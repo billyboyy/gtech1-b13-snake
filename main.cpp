@@ -16,12 +16,13 @@ SDL_Surface *gScreenSurface = NULL;
 SDL_Surface *gHelloWorld = NULL;
 
 SDL_Rect r;
-
 SDL_Rect f;
 
 char e;
 int top;
 int bot;
+
+
 
 void speed(unsigned int frame_start)
 {
