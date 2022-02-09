@@ -17,12 +17,24 @@ SDL_Surface *gHelloWorld = NULL;
 
 SDL_Rect r;
 SDL_Rect f;
+SDL_Rect m;
 
 char e;
 int top;
 int bot;
 
+void kill()
+{
+  SDL_SetRenderDrawColor(renderer, 0, 255, 255, 255);
+  SDL_RenderClear(renderer);
 
+  m.w = 20;
+  m.h = 20;
+  bot = rand() % 40;
+  top = rand() % 50;
+  m.x = top * 20;
+  m.y = bot * 20;
+}
 
 void speed(unsigned int frame_start)
 {
@@ -100,9 +112,10 @@ int collision()
   if (f.x == r.x && f.y == r.y)
   {
     Food();
+    kill();
     return 0;
   }
-  else if (r.x >= height || r.y >= width || r.x < 0 || r.y < 0)
+  else if (r.x >= height || r.y >= width || r.x < 0 || r.y < 0 || m.x == r.x && m.y == r.y)
   {
     return -1;
   }
@@ -175,6 +188,8 @@ void move()
     SDL_RenderFillRect(renderer, &r);
     SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
     SDL_RenderFillRect(renderer, &f);
+    SDL_SetRenderDrawColor(renderer, 0, 255, 255, 255);
+    SDL_RenderFillRect(renderer, &m);
     SDL_RenderPresent(renderer);
     speed(frame_start);
   }
@@ -190,6 +205,7 @@ int main()
 
   snake();
   Food();
+  kill();
   move();
 
   close();
